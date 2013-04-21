@@ -1,3 +1,6 @@
+<!--
+linux c 一站式编程： 深度优先搜索的javascript版
+-->
 <script>
 (function(){
 	var MAX_ROW = 5,
@@ -5,12 +8,12 @@
 		
 		Point = function (row, col){ this.row=row; this.col=col },
 		stack = new Array(),
-		maze, predecessor;
+		maze/*, predecessor*/;
 	/*
 	var top = 0;
 	
 	function push(point){
-		stack[top++] = p;
+		stack[top++] = point;
 	}
 	
 	function pop(){
@@ -21,57 +24,111 @@
 		return stack.length === 0;
 	}
 	
-	maze = [
-		[ 0, 1, 0, 0, 0 ],
-		[ 0, 1, 0, 1, 0 ],
-		[ 0, 0, 0, 0, 0 ],
-		[ 0, 1, 1, 1, 0 ],
-		[ 0, 0, 0, 1, 0 ]
-	];
+	maze = {
+		//0: 可走
+		//1：死路
+		//2：已走过
+		data:	[
+					[ 0, 1, 0, 0, 0 ],
+					[ 0, 1, 0, 1, 0 ],
+					[ 0, 0, 0, 0, 0 ],
+					[ 0, 1, 1, 1, 0 ],
+					[ 0, 0, 0, 1, 0 ]
+				],
+		predecessor: [
+			[new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1)],
+			[new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1)],
+			[new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1)],
+			[new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1)],
+			[new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1)]
+		],
+		get_point_status: function(row, col){
+			return this.data[row][col];
+		},
+		get_point_predecessor: function(point){
+			return this.predecessor[point.row][point.col];
+		},
+		set_visited: function(point){
+			this.data[point.row][point.col] = '*';
+		},
+		set_point_predecessor: function(current_point, predecessor_point){
+			this.predecessor[current_point.row][current_point.col] = predecessor_point;
+		},
+		is_point_has_predecessor: function(point){
+			return this.predecessor[point.row][point.col].row != -1;
+		},
+		is_goal: function(point){
+			return point.row == MAX_ROW - 1 && point.col == MAX_COL - 1;
+		},
+		can_visit: function(row, col){
+			return row < MAX_ROW && row >= 0 && col < MAX_COL && col >= 0 
+					&& this.get_point_status(row, col) == 0;
+		}
+	};
 	
 	function print_maze(){
 		var i, j;
 		for(i = 0; i < MAX_ROW; i++){
+			var str = '';
 			for(j = 0; j < MAX_COL; j++)
-				console.log(maze[i][j] + ' ');
+				//str += maze[i][j] + ' '; 
+				str += maze.get_point_status(i, j) + ' ';
+			console.log(str);
 		}
 		console.log('**********');
 	}
 	
-	predecessor = [];
+	/*predecessor = [];
 	for(var i = 0; i < MAX_ROW; i++){
 		predecessor[i] = [];
 		for(var j = 0; j < MAX_COL; j++)
 			predecessor[i][j] = new Point(-1, -1);
-	}
+	}*/
 			
 	function visit(row, col, pre_point){
 		var visit_point = new Point(row, col);
-		maze[row][col] = 2;
-		predecessor[row][col] = pre_point;
+		maze.set_visited(visit_point);//maze[row][col] = '*';
+		if(pre_point)
+			//predecessor[row][col] = pre_point;
+			maze.set_point_predecessor(visit_point, pre_point);
 		stack.push(visit_point);
 	}
 	
 	function main(){
-		var p = new Point(0, 0);
+		//p is current_point
+		var p;
+		/*var p = new Point(0, 0);
 		
-		maze[p.row][p.col] = 2;
-		stack.push(p);
+		maze[p.row][p.col] = '*';
+		stack.push(p);*/
+		
+		//这样更直观：先访问左上角的point。
+		visit(0, 0, null);
 		
 		while(!is_empty()){
 			p = stack.pop();
-			if(p.row == MAX_ROW - 1 && p.col == MAX_COL -1) /* goal */
+			if(maze.is_goal(p)) /* goal */
 				break;
-			if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* right */
+			//if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* right */
+			if(maze.can_visit(p.row, p.col+1)) /* right */
 				visit(p.row, p.col+1, p);
-			if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* down */
-				visit(p.row, p.col+1, p);
-			if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* right */
-				visit(p.row, p.col+1, p);
-			if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* up */
-				visit(p.row, p.col+1, p);
+			if(maze.can_visit(p.row+1, p.col)) /* down */
+				visit(p.row+1, p.col, p);
+			if(maze.can_visit(p.row, p.col-1)) /* left */
+				visit(p.row, p.col-1, p);
+			if(maze.can_visit(p.row-1, p.col)) /* up */
+				visit(p.row-1, p.col, p);
+			print_maze();
 		}
-		if(p.row == MAX_ROW)
+		if(maze.is_goal(p)){
+			console.log("("+p.row+", "+p.col+")");
+			//while(predecessor[p.row][p.col].row != -1){
+			while(maze.is_point_has_predecessor(p)){
+				p = maze.get_point_predecessor(p);//predecessor[p.row][p.col];
+				console.log("("+p.row+", "+p.col+")");
+			}
+		}else
+			console.log("No path!");
 	}
 	
 	main();

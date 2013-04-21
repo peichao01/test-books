@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		#container{text-align:center;}
+		table{border-collapse:collapse}
+		td{width:20px;height:20px;border:1px solid #000}
+		
+		#msg{line-height:20px;font-size:12px;margin-top:20px;}
+		p{margin:0;}
+	</style>
+</head>
+<body>
+<div id="container"></div>
+<div id="msg">
+</div>
+<!--
+linux c 一站式编程： 深度优先搜索的javascript版
+http://learn.akae.cn/media/ch12s03.html
+习题：
+	1、修改本节的程序，要求从起点到终点正向打印路线。你能想到几种办法？
+	答：1. 在最后倒序打印时先不打印，而是转存到另一个数组，然后在倒序打印这个数组，已达到正序输出路径point。
+		2. 不用“前驱” predecessor，而是：把每一个branch支路都放到一个数组中，当发现此 branch 走不通，
+				则返回前一个branch 最后一点（即分岔口的另一条路的开端），继续。
+			代码入下：
+				此段代码有一部分是展示用的，与算法无关，可以删掉
+			
+-->
+<script>
+(function(){
+	var MAX_ROW,// = 7,
+		MAX_COL,// = 11,
+		
+		Point = function (row, col){ this.row=row; this.col=col },
+		stack = new Array(),
+		maze;
+		
+	function is_empty(){
+		return stack.length === 0;
+	}
+	
+	var interval = 500;
+	var queue = {
+		queue: [],
+		draw: function(){
+			var content = this.queue.shift();
+			if(typeof content == 'string')
+				document.querySelector('#container').innerHTML = content;
+			else{
+				var p = document.createElement('p');
+				p.innerHTML = content.msg;
+				document.querySelector('#msg').appendChild(p);
+				alert(content.msg);
+			}
+		},
+		id: null,
+		add: function(html){
+			this.queue.push(html);
+			var that = this;
+			
+			if(this.id === null){
+				this.draw();
+				this.id = setInterval(function(){
+					that.draw();
+					
+					if(!that.queue.length){
+						clearInterval(that.id);
+						that.id = null;
+					}
+				}, interval);
+			}
+		}
+	};
+	
+	function add_msg(msg){
+		queue.add({msg: msg});
+	}
+	
+	maze = {
+		//0: 可走
+		//1：死路
+		//2：已走过
+		data:	[
+					/*[ 0, 1, 0, 0, 0 ],
+					[ 0, 1, 0, 1, 0 ],
+					[ 0, 0, 0, 0, 0 ],
+					[ 0, 1, 1, 1, 0 ],
+					[ 0, 0, 0, 1, 0 ]*/
+					[ 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0 ],
+					[ 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
+					[ 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0 ],
+					[ 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1 ],
+					[ 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 ],
+					[ 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1 ],
+					[ 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0 ]
+				],
+		get_point_status: function(row, col){
+			return this.data[row][col];
+		},
+		get_point_predecessor: function(point){
+			return this.predecessor[point.row][point.col];
+		},
+		set_visited: function(point){
+			this.data[point.row][point.col] = '·';
+		},
+		set_right: function(point){
+			this.data[point.row][point.col] = '√';
+		},
+		//visited, but wrong
+		set_wrong: function(point){
+			this.data[point.row][point.col] = '×';
+		},
+		set_point_predecessor: function(current_point, predecessor_point){
+			this.predecessor[current_point.row][current_point.col] = predecessor_point;
+		},
+		is_point_has_predecessor: function(point){
+			return this.predecessor[point.row][point.col].row != -1;
+		},
+		is_goal: function(point){
+			return point.row == MAX_ROW - 1 && point.col == MAX_COL - 1;
+		},
+		can_visit: function(row, col){
+			return row < MAX_ROW && row >= 0 && col < MAX_COL && col >= 0 
+					&& this.get_point_status(row, col) == 0;
+		}
+	};
+	MAX_ROW = maze.data.length;
+	MAX_COL = maze.data[0].length;
+	
+	var traces = [[]],
+		current_trace = 0;
+	
+	function print_maze(){
+		var i, j, str;
+		var html = '<table cellpadding="0" cellspacing="0">';
+		
+		str = '<tr><td style="background-color:#aae"></td>';
+		for(j = 0; j < MAX_COL; j++){
+			str += '<td style="background-color:#aae">'+j+'</td>';
+		}
+		html += str + '</tr>';
+		
+		for(i = 0; i < MAX_ROW; i++){
+			str = '<tr>';
+			//for(j = 0; j < MAX_COL; j++){
+			for(j = -1; j < MAX_COL; j++){
+				if(j == -1)
+					status = '<td style="background-color:#aae">'+i+'</td>';
+				else{
+					//str += maze[i][j] + ' '; 
+					var status = maze.get_point_status(i, j);
+					if(status == '1') status = '<td style="background-color:#eaa">' + status + '</td>';
+					if(status == '0') status = '<td style="background-color:#efe">' + status + '</td>';
+					if(status == '·') status = '<td style="background-color:#fff">' + status + '</td>';
+					if(status == '×') status = '<td style="background-color:#e66">' + status + '</td>';
+					if(status == '√') status = '<td><b style="color:red">' + status + '</b></td>';
+				}
+				str += status;
+			}
+			//console.log(str);
+			html += str + '</tr>';
+		}
+		queue.add(html+'</table>');
+		//console.log('**********');
+	}
+	
+		
+	var i = 0, stack_len = stack.length;	
+	function visit(row, col, prev_point){
+		var visit_point = new Point(row, col);
+		maze.set_visited(visit_point);
+		
+			
+		var cur_stack_len = stack.length;
+		//说明有一条路走错了，要从最近的一次岔口，走另一个路
+		if(cur_stack_len < stack_len){
+			current_trace--;
+			
+			
+			var wrong_branch = traces[current_trace+1];
+			
+			var last_wrong_point = wrong_branch[wrong_branch.length - 1];
+			add_msg('在 point('+last_wrong_point.row+', '+last_wrong_point.col+') 处发现已无路可走，消除 branch：' + (current_trace+1));
+			
+			for(var i = 0, len = wrong_branch.length; i<len; i++){
+				//var point = 
+				maze.set_wrong(wrong_branch[i]);
+				print_maze();
+			}
+			
+			var prev_branch = traces[current_trace];
+			var prev_branch_last_point = prev_branch[prev_branch.length - 1];
+			add_msg('继续从前一个路口的另一个branch（'+current_trace+'， 起始点：('+prev_branch_last_point.row+', '+prev_branch_last_point.col+')） 前进');
+		}else{
+			//每次多一个岔口，后面的分支路线就单独开出来（因为是 深度优先算法，即每一条路，一直走到死路才回头到最近的分岔口走另一条支路，类推）
+			if(cur_stack_len > stack_len){
+				current_trace++;
+				//新数组覆盖可能是之前的死路
+				traces[current_trace] = [];
+				
+				add_msg('在 point('+prev_point.row+', '+prev_point.col+') 处发现分岔口，增加新 branch 支路：' + current_trace);
+			}
+			
+			print_maze();
+		}
+		if(stack.length != stack_len){
+			stack_len = stack.length;
+		}
+		
+		stack.push(visit_point);
+		traces[current_trace].push(visit_point);
+	}
+	
+	function main(){
+		//p is current_point
+		var p;
+		/*var p = new Point(0, 0);
+		
+		maze[p.row][p.col] = '*';
+		stack.push(p);*/
+		
+		//这样更直观：先访问左上角的point。
+		visit(0, 0, null);
+		//the_next[0] = stack[0];//new Point(0, 0);
+		while(!is_empty()){
+			p = stack.pop();
+			if(maze.is_goal(p)) /* goal */
+				break;
+			//if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* right */
+			if(maze.can_visit(p.row, p.col+1)) /* right */
+				visit(p.row, p.col+1, p);
+			if(maze.can_visit(p.row+1, p.col)) /* down */
+				visit(p.row+1, p.col, p);
+			if(maze.can_visit(p.row, p.col-1)) /* left */
+				visit(p.row, p.col-1, p);
+			if(maze.can_visit(p.row-1, p.col)) /* up */
+				visit(p.row-1, p.col, p);
+			//print_maze();
+		}
+		if(maze.is_goal(p)){
+			var _p = p;
+			/*for(var i = 0, len = the_next.length; i<len; i++){
+				p = the_next[i];
+				console.log("("+p.row+", "+p.col+")");
+			}*/
+			//因为current_trace也是从 0 开始的
+			for(var i = 0; i <= current_trace; i++){
+				var current_branch = traces[i],
+					str = '';
+				//每一个分支的最后一个都是分岔口另一个分支的开头，故 -1，略去
+				for(var j = 0, len = current_branch.length - 1; j < len; j++){
+					p = current_branch[j];
+					console.log("("+p.row+", "+p.col+")");
+					maze.set_right(p);
+				}
+			}
+			console.log("("+_p.row+", "+_p.col+")");
+			
+			maze.set_right(_p);
+			print_maze();
+			//console.log(traces);
+		}else
+			console.log("No path!");
+		
+		window.queue = queue;
+		window.traces = traces;
+	}
+	
+	main();
+})();
+</script>
+</body>
+</html>
