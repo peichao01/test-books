@@ -1,0 +1,79 @@
+<script>
+(function(){
+	var MAX_ROW = 5,
+		MAX_COL = 5,
+		
+		Point = function (row, col){ this.row=row; this.col=col },
+		stack = new Array(),
+		maze, predecessor;
+	/*
+	var top = 0;
+	
+	function push(point){
+		stack[top++] = p;
+	}
+	
+	function pop(){
+		return stack[--top];
+	}
+	*/
+	function is_empty(){
+		return stack.length === 0;
+	}
+	
+	maze = [
+		[ 0, 1, 0, 0, 0 ],
+		[ 0, 1, 0, 1, 0 ],
+		[ 0, 0, 0, 0, 0 ],
+		[ 0, 1, 1, 1, 0 ],
+		[ 0, 0, 0, 1, 0 ]
+	];
+	
+	function print_maze(){
+		var i, j;
+		for(i = 0; i < MAX_ROW; i++){
+			for(j = 0; j < MAX_COL; j++)
+				console.log(maze[i][j] + ' ');
+		}
+		console.log('**********');
+	}
+	
+	predecessor = [];
+	for(var i = 0; i < MAX_ROW; i++){
+		predecessor[i] = [];
+		for(var j = 0; j < MAX_COL; j++)
+			predecessor[i][j] = new Point(-1, -1);
+	}
+			
+	function visit(row, col, pre_point){
+		var visit_point = new Point(row, col);
+		maze[row][col] = 2;
+		predecessor[row][col] = pre_point;
+		stack.push(visit_point);
+	}
+	
+	function main(){
+		var p = new Point(0, 0);
+		
+		maze[p.row][p.col] = 2;
+		stack.push(p);
+		
+		while(!is_empty()){
+			p = stack.pop();
+			if(p.row == MAX_ROW - 1 && p.col == MAX_COL -1) /* goal */
+				break;
+			if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* right */
+				visit(p.row, p.col+1, p);
+			if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* down */
+				visit(p.row, p.col+1, p);
+			if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* right */
+				visit(p.row, p.col+1, p);
+			if(p.col+1 < MAX_COL && maze[p.row][p.col+1] == 0) /* up */
+				visit(p.row, p.col+1, p);
+		}
+		if(p.row == MAX_ROW)
+	}
+	
+	main();
+})();
+</script>
