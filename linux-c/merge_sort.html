@@ -1,0 +1,54 @@
+<!--
+归并排序 javascript 版
+-->
+<script>
+(function(global, sort){
+	var arr;
+	
+	function merge(start, mid, end){
+		var left_len = mid - start + 1,
+			right_len = end - mid,
+			left = new Array(left_len),
+			right = new Array(right_len);
+		var left_loop, right_loop, new_assignment_start;
+		
+		for(left_loop=0; left_loop<left_len; left_loop++) /* left holds arr[start..mid] */
+			left[left_loop] = arr[start+left_loop];
+		for(right_loop=0; right_loop<right_len; right_loop++) /* right holds arr[mid+1..end] */
+			right[right_loop] = arr[mid+1+right_loop];
+			
+		left_loop = right_loop = 0;
+		new_assignment_start = start;
+		while(left_loop < left_len && right_loop < right_len)
+			if(left[left_loop] < right[right_loop])
+				arr[new_assignment_start++] = left[left_loop++];
+			else
+				arr[new_assignment_start++] = right[right_loop++];
+		
+		/* only one in left and right may not exhausted */
+		while(left_loop < left_len) /* left[] is not exhausted */
+			arr[new_assignment_start++] = left[left_loop++];
+		while(right_loop < right_len) /* right[] is not exhausted */
+			arr[new_assignment_start++] = right[right_loop++];
+	}
+	
+	function _sort(start, end){
+		var mid;
+		if (start < end){
+			mid = Math.floor((start + end) / 2);
+			_sort(start, mid);
+			_sort(mid+1, end);
+			merge(start, mid, end);
+		}
+	}
+	
+	function divid(_arr){
+		arr = _arr;
+		_sort(0, _arr.length-1);
+		return arr;
+	};
+	
+	sort.divid = divid;
+	
+})(this, this.sort||(this.sort={}));
+</script>

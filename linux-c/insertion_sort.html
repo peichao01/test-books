@@ -1,0 +1,25 @@
+<!--
+插入排序 javascript 版
+-->
+<script>
+(function(global, sort){	
+	sort.insert = function(arr){
+		var		len = arr.length,
+			current_index = 1,
+			fake_current_index, prev_index, tmp;
+		for (; current_index < len; current_index++){
+			fake_current_index = current_index;
+			prev_index = current_index-1;
+			while (arr[fake_current_index] < arr[prev_index] && prev_index >= 0){
+				tmp = arr[prev_index];
+				arr[prev_index] = arr[fake_current_index];
+				arr[fake_current_index] = tmp;
+				
+				fake_current_index--;
+				prev_index--;
+			}
+		}
+		return arr;
+	};
+})(this, this.sort||(this.sort={}));
+</script>
