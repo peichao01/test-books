@@ -2,14 +2,14 @@
 
 int main(void)
 {
-	char str[] = "hello";
-	char reverse_str[6] = "";
 	int i, j=0;
-	for(i=6; i>=0; i--){
-		if(str[i] != '\0'){
-			reverse_str[j++] = str[i];
+	char str[] = "hello";
+	char revers_str[6];
+	for(i=5;i>=0;i--){
+		if(str[i]!='\0'){
+			revers_str[j++] = str[i];
 		}
 	}
-	printf("%s\n", reverse_str);
+	printf("%s", revers_str);
 	return 0;
 }
