@@ -6,7 +6,11 @@ int main(void)
 	int *pa = &a[0];
 	pa++;
 	
-	printf("%d\n", &a);
+	/*if(&a == &a[0])
+		printf("&a == &a[0]");
+	else
+		printf("&a != &a[0]");*/
+	//putchar(*&a);
 	
 	return 0;
 }
