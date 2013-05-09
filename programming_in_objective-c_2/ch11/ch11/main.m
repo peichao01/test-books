@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Square.h"
 
 int main(int argc, const char * argv[])
 {
@@ -14,9 +15,10 @@ int main(int argc, const char * argv[])
     @autoreleasepool {
         
         // insert code here...
-        NSLog(@"Hello, World!");
-        
-    }
+        //NSLog(@"Hello, World!");
+		Square *s = [[Square alloc] initWithSide:<#(int)s#>]
+
+	}
 
     return 0;
 }

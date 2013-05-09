@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D709925B1041F6927B79317C /* Naruto.m in Sources */ = {isa = PBXBuildFile; fileRef = D7099C26C7F0774EA18AC0F2 /* Naruto.m */; };
 		D70996FF710197961EFB9DA9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D709943B905CA92A59DF7023 /* main.m */; };
+		D7099776CAED3252057CBD46 /* Square.m in Sources */ = {isa = PBXBuildFile; fileRef = D7099B7F7B1BC3ADFF74C48B /* Square.m */; };
+		D7099A852800FF09D7F4112F /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = D7099F9547B3B707C1CD33D2 /* Rectangle.m */; };
+		D7099D2F56EBE4142A4645FC /* Naruto+Ability.m in Sources */ = {isa = PBXBuildFile; fileRef = D70994631F54284628EEFDAB /* Naruto+Ability.m */; };
+		D7099EB1CAD017DAC2E4ECBA /* Naruto+Eat.m in Sources */ = {isa = PBXBuildFile; fileRef = D7099BA58D758315A7F479EA /* Naruto+Eat.m */; };
 		D7099EE6179C950C454D08EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7099BB5B9FAECA9F7923F20 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,11 +29,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D70992DDF072AAB9CCD161B9 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
 		D709943B905CA92A59DF7023 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D709943EC353E42F895D975F /* Naruto+Ability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Naruto+Ability.h"; sourceTree = "<group>"; };
+		D70994631F54284628EEFDAB /* Naruto+Ability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Naruto+Ability.m"; sourceTree = "<group>"; };
+		D70994878D4995211B7548FC /* Naruto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Naruto.h; sourceTree = "<group>"; };
 		D709963519FF246DD3A004C2 /* ch11 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ch11; sourceTree = BUILT_PRODUCTS_DIR; };
+		D709979149EEE092A64B608B /* Naruto+Eat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Naruto+Eat.h"; sourceTree = "<group>"; };
 		D7099A3AC675EBAAD65AECAE /* ch11.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = ch11.1; sourceTree = "<group>"; };
 		D7099A6508EBE66609D6EA48 /* ch11-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ch11-Prefix.pch"; sourceTree = "<group>"; };
+		D7099AEC70DA1932748FFB8E /* Square.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Square.h; sourceTree = "<group>"; };
+		D7099B7F7B1BC3ADFF74C48B /* Square.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Square.m; sourceTree = "<group>"; };
+		D7099BA58D758315A7F479EA /* Naruto+Eat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Naruto+Eat.m"; sourceTree = "<group>"; };
 		D7099BB5B9FAECA9F7923F20 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D7099C26C7F0774EA18AC0F2 /* Naruto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Naruto.m; sourceTree = "<group>"; };
+		D7099F9547B3B707C1CD33D2 /* Rectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rectangle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +89,16 @@
 				D709943B905CA92A59DF7023 /* main.m */,
 				D70991DAE64134F14E69C4DB /* Supporting Files */,
 				D7099A3AC675EBAAD65AECAE /* ch11.1 */,
+				D7099C26C7F0774EA18AC0F2 /* Naruto.m */,
+				D70994878D4995211B7548FC /* Naruto.h */,
+				D7099BA58D758315A7F479EA /* Naruto+Eat.m */,
+				D709979149EEE092A64B608B /* Naruto+Eat.h */,
+				D70994631F54284628EEFDAB /* Naruto+Ability.m */,
+				D709943EC353E42F895D975F /* Naruto+Ability.h */,
+				D7099F9547B3B707C1CD33D2 /* Rectangle.m */,
+				D70992DDF072AAB9CCD161B9 /* Rectangle.h */,
+				D7099B7F7B1BC3ADFF74C48B /* Square.m */,
+				D7099AEC70DA1932748FFB8E /* Square.h */,
 			);
 			path = ch11;
 			sourceTree = "<group>";
@@ -137,6 +162,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D70996FF710197961EFB9DA9 /* main.m in Sources */,
+				D709925B1041F6927B79317C /* Naruto.m in Sources */,
+				D7099EB1CAD017DAC2E4ECBA /* Naruto+Eat.m in Sources */,
+				D7099D2F56EBE4142A4645FC /* Naruto+Ability.m in Sources */,
+				D7099A852800FF09D7F4112F /* Rectangle.m in Sources */,
+				D7099776CAED3252057CBD46 /* Square.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
