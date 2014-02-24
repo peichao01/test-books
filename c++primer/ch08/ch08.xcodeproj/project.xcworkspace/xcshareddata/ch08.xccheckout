@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>CD8D15C4-E473-4919-86CE-338196A232F8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ch08</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0DC096D6-EF1B-4E93-9E19-B69BEA548E80</key>
+		<string>ssh://github.com/peichao01/test_books</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>c++primer/ch08/ch08.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0DC096D6-EF1B-4E93-9E19-B69BEA548E80</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/peichao01/test_books</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0DC096D6-EF1B-4E93-9E19-B69BEA548E80</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0DC096D6-EF1B-4E93-9E19-B69BEA548E80</string>
+			<key>IDESourceControlWCCName</key>
+			<string>test-books</string>
+		</dict>
+	</array>
+</dict>
+</plist>
